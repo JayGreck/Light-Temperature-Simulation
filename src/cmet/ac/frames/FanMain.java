@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 
 import cmet.ac.components.Fan;
 import cmet.ac.components.FanPanel;
-import cmet.ac.components.SpeedPanel;
 
 
 public class FanMain extends JFrame {
@@ -22,7 +21,7 @@ public class FanMain extends JFrame {
 	private static FanMain	fanui_instance;
 	
 	private FanPanel 		fan_panel;
-	private SpeedPanel		speed_panel;
+	
 	private Fan				fan_instance;
 	
 	public static void main(String[] args) {
@@ -57,9 +56,9 @@ public class FanMain extends JFrame {
 		fan_instance = new Fan(150, 150);
 		
 		fan_panel = new FanPanel(300, 300, fan_instance);
-		speed_panel = new SpeedPanel(fan_instance);
+		//speed_panel = new SpeedPanel(fan_instance);
 				
-		add(speed_panel, BorderLayout.NORTH);
+		//add(speed_panel, BorderLayout.NORTH);
 		add(fan_panel, BorderLayout.CENTER);
 		
 		setVisible(true);
