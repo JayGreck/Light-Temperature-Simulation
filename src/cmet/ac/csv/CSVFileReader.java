@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit; 
 
+
+
 /**
  * @author Jay
  *
@@ -16,6 +18,7 @@ public class CSVFileReader {
 	
 	
 	private String line= "";
+	
 	CSVFileReaderMain csvObject = new CSVFileReaderMain();
 	
 	
@@ -24,7 +27,8 @@ public class CSVFileReader {
 		
 	}
 	
-	public void ReadFile(String file) {
+	public void ReadFile(int clientType, int n_delay) {
+		
 		SensorData dataObject = new SensorData();
 		
 		try {
@@ -34,10 +38,16 @@ public class CSVFileReader {
 			while ((line = br.readLine()) != null)   //returns a Boolean value  
 			{  
 				String[] sensorData = line.split(csvObject.getSplitBy());  // use comma as separator  
-				//String data = sensorData[dataObject.getTempData()];
+				String data = sensorData[dataObject.getTempData()];
+			if (clientType == 1) {
+				System.out.println("Temp:" + sensorData[dataObject.getTempData()]);
+			}
+			else if(clientType == 2) {
+				System.out.println("Light:" + sensorData[dataObject.getLightData()]);
+			}
 			
-			System.out.println("Light:" + sensorData[dataObject.getLightData()] + ", Temp:" + sensorData[dataObject.getTempData()]);  
-			TimeUnit.SECONDS.sleep(1);
+			//System.out.println("Light:" + sensorData[dataObject.getLightData()] + ", Temp:" + sensorData[dataObject.getTempData()]);  
+			TimeUnit.SECONDS.sleep(n_delay);
 			}  
 			
 			}   

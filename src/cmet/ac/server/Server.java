@@ -19,7 +19,8 @@ import cmet.ac.server.components.ClientManager;
  * @author Jay
  *
  */
-public class Server extends AbstractServerComponent implements Runnable {
+public class Server extends AbstractServerComponent implements Runnable
+{
 
 	// reference variable for server socket. 
 	private ServerSocket 			serverSocket;
@@ -63,6 +64,7 @@ public class Server extends AbstractServerComponent implements Runnable {
 		this.clientThreadGroup = new ThreadGroup("ClientManager threads");
 		
 	}
+	
 	
 	/**
 	 * Initializes the server. Takes port number, creates a new serversocket instance. 
