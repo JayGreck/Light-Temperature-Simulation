@@ -7,18 +7,15 @@ package cmet.ac.server.components;
  * @author Jay
  *
  */
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-/**
- * Class represents a handler for each Client for the Server. Each client to be treated as a separate thread. 
- * 
- * @author thanuja
- * @version 20.11.2019
- */
+import cmet.ac.client.TemperatureClient;
+
 public class ClientManager extends Thread {
 
 	// reference variable to store client socket
@@ -37,6 +34,8 @@ public class ClientManager extends Thread {
 	// store an incrementing ID for the client. 
 	private int 					clientID;
 	
+	private String clientType;
+	
 
 	
 	/**
@@ -47,31 +46,55 @@ public class ClientManager extends Thread {
 	 * @param clientID
 	 * @param server
 	 */
-	public ClientManager(ThreadGroup threadgroup, Socket socket, int clientID, AbstractServerComponent server) {
+	public ClientManager(ThreadGroup threadgroup, Socket socket, int clientID, AbstractServerComponent server, int amtClientConnections) {
+		
 		super(threadgroup, (Runnable) null);
 		
-		this.clientSocket = socket;
-		this.server = server;
-		this.stopConnection = false;
-		this.clientID = clientID;
+		//System.out.println("Client Type = " + clientType);
 		
-		System.out.println("[ClientManager: ] new client request received, port " 
-				+ socket.getPort());
-		try {
-			this.out = new ObjectOutputStream(this.clientSocket.getOutputStream());
-			this.in = new ObjectInputStream(this.clientSocket.getInputStream());			
-		}
-		catch(IOException e) {
-			System.err.println("[ClientManager: ] error when establishing IO streams on client socket.");
-			try {
-				closeAll();
-			} catch (IOException e1) {
-				System.err.println("[ClientManager: ] error when closing connections..." + e1.toString());
-
+		System.out.println("[ClientManager: ] amtClientConnections = " + amtClientConnections);
+		if(amtClientConnections <= 2) {
+			//System.out.println("[ClientManager: ] Inside if block khadkujhakjshd");
+			this.clientSocket = socket;
+			this.server = server;
+			this.stopConnection = false;
+			this.clientID = clientID;
+			
+			if (clientID % 2 != 0) {
+				TemperatureClient clientType = new TemperatureClient();
 			}
+			
+			else {
+				// Implement Light client
+				System.out.println("[Client Manage] Light Client Controller Still needs to be implemented");
+			}
+			
+			
+			
+			System.out.println("[ClientManager: ] new client request received, port " 
+					+ socket.getPort());
+			try {
+				this.out = new ObjectOutputStream(this.clientSocket.getOutputStream());
+				this.in = new ObjectInputStream(this.clientSocket.getInputStream());
+						
+			}
+			catch(IOException e) {
+				System.err.println("[ClientManager: ] error when establishing IO streams on client socket.");
+				try {
+					closeAll();
+				} catch (IOException e1) {
+					System.err.println("[ClientManager: ] error when closing connections..." + e1.toString());
+
+				}
+			}
+			
+			start();	
 		}
 		
-		start();	
+		else {
+			System.out.println("[Client Manager] Client Connection Maximum Met...");
+		}
+		
 	}
 	
 	/**
@@ -134,8 +157,9 @@ public class ClientManager extends Thread {
 				msg = (String)this.in.readObject(); // Message from the client
 				this.server.handleMessagesFromClient(msg, this);
 				
-				if(msg.equals("over")) {
-					this.stopConnection = true;					
+				if(msg.equals("STOP")) {
+					this.stopConnection = true;	
+					System.out.println("[Client Manager] over command has been issued");
 				}				
 			}
 			

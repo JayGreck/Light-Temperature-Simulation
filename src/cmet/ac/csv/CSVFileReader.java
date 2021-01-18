@@ -34,7 +34,7 @@ public class CSVFileReader {
 			while ((line = br.readLine()) != null)   //returns a Boolean value  
 			{  
 				String[] sensorData = line.split(csvObject.getSplitBy());  // use comma as separator  
-				String data = sensorData[dataObject.getTempData()];
+				//String data = sensorData[dataObject.getTempData()];
 			
 			System.out.println("Light:" + sensorData[dataObject.getLightData()] + ", Temp:" + sensorData[dataObject.getTempData()]);  
 			TimeUnit.SECONDS.sleep(1);

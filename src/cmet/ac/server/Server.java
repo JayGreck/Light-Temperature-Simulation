@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import cmet.ac.server.components.AbstractServerComponent;
 import cmet.ac.server.components.ClientManager;
@@ -43,6 +44,8 @@ public class Server extends AbstractServerComponent implements Runnable {
 	
 	// stores the received messages from client
 	private String					receivedMessage;
+	
+	//private int clientType;
 	
 
 	/**
@@ -126,6 +129,7 @@ public class Server extends AbstractServerComponent implements Runnable {
 			((ClientManager) clientThreadList[i]).sendMessageToClient(msg);
 		}
 		
+		
 	}
 	
 	
@@ -203,8 +207,10 @@ public class Server extends AbstractServerComponent implements Runnable {
 			while (true) {
 				message = fromConsole.readLine();
 				handleUserInput(message);
-				if(message.equals("STOP")) // In this case, Over is the terminating command
+				if(message.equals("over")) // In this case, Over is the terminating command
+					System.out.println("[server] over command issued...");
 					break;
+				
 			}
 			
 			System.out.println("[client: ] stopping client...");
@@ -246,36 +252,48 @@ public class Server extends AbstractServerComponent implements Runnable {
 
 		// increments when a client connects. 
 		int clientCount = 0;
-
+		Thread[] threadList = getClientConnections();
+		int amtClientConnections;
+		Scanner clientTypeInput = new Scanner(System.in);
+		
+		
 		// loops until stopserver flag is set to true. 
 		while (!this.stopServer) {
 			
-			if (clientCount >= 2) {
-				Socket clientSocket = null;
-				try {
+			Socket clientSocket = null;
+			try {
+				
+				
+				if(getClientConnections().length <= 2) {
+					System.out.println("[Server] # Client Connections in else if block = " + getClientConnections().length);
 					clientSocket = serverSocket.accept(); // Accepts Client connections
-				} catch (IOException e1) {
-					System.err.println("[server: ] Error when handling client connections on port " + port);
+					clientCount++;
+					System.out.println("[Server] Client Number = " + clientCount);
 				}
-
-				ClientManager cm = new ClientManager(this.clientThreadGroup, clientSocket, clientCount, this); // Moments client connection is connected, a new thread is created
-
-				// new ClientManager(clientSocket, this);
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					System.err.println("[server: ] server listner thread interruped..");
-				}
-
-				clientCount++;
+				
+			} catch (IOException e1) {
+				System.err.println("[server: ] Error when handling client connections on port " + port);
 			}
 			
-			else {
-				System.out.println("[server: ] max number of client connections achieved...");
+			amtClientConnections = getClientConnections().length;
+			ClientManager cm = new ClientManager(this.clientThreadGroup, clientSocket, clientCount, this, amtClientConnections); // New client thread is created
+			if(getClientConnections().length < clientCount) {
+				clientCount--; // Will alwau's revert to 1 or 0
+				System.out.println("[Server] Client Number = " + clientCount);
+				System.out.println("[Server] # Client Connections in if block = " + getClientConnections().length);
 			}
 			
+			// new ClientManager(clientSocket, this);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				System.err.println("[server: ] server listener thread interruped..");
+			}
+			
+			
+		}
+			
 
-		}		
 	}
 
 	/**
@@ -299,7 +317,6 @@ public class Server extends AbstractServerComponent implements Runnable {
 		server.runServer();
 
 	}
-
 
 
 

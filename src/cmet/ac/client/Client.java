@@ -11,6 +11,14 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
+
+import cmet.ac.components.Fan;
+import cmet.ac.components.FanPanel;
+import cmet.ac.frames.FanMain;
+
 
 /**
  * @author Jay
