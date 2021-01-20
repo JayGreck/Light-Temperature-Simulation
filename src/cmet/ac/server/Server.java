@@ -66,6 +66,7 @@ public class Server extends AbstractServerComponent implements Runnable
 	}
 	
 	
+	
 	/**
 	 * Initializes the server. Takes port number, creates a new serversocket instance. 
 	 * Starts the server's listening thread. 
@@ -256,7 +257,7 @@ public class Server extends AbstractServerComponent implements Runnable
 		int clientCount = 0;
 		Thread[] threadList = getClientConnections();
 		int amtClientConnections;
-		Scanner clientTypeInput = new Scanner(System.in);
+		//Scanner clientTypeInput = new Scanner(System.in);
 		
 		
 		// loops until stopserver flag is set to true. 
@@ -271,6 +272,7 @@ public class Server extends AbstractServerComponent implements Runnable
 					clientSocket = serverSocket.accept(); // Accepts Client connections
 					clientCount++;
 					System.out.println("[Server] Client Number = " + clientCount);
+					
 				}
 				
 			} catch (IOException e1) {
@@ -280,7 +282,7 @@ public class Server extends AbstractServerComponent implements Runnable
 			amtClientConnections = getClientConnections().length;
 			ClientManager cm = new ClientManager(this.clientThreadGroup, clientSocket, clientCount, this, amtClientConnections); // New client thread is created
 			if(getClientConnections().length < clientCount) {
-				clientCount--; // Will alwau's revert to 1 or 0
+				clientCount--; // Will alway's revert to 1 or 0
 				System.out.println("[Server] Client Number = " + clientCount);
 				System.out.println("[Server] # Client Connections in if block = " + getClientConnections().length);
 			}

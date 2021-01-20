@@ -19,14 +19,16 @@ public class TemperatureClient extends Client {
 	
 	
 	//Temp Client Constructor
-	public TemperatureClient() {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				FanMain.getFanUIInstance();
-			}
-		});
+	public TemperatureClient(int clientID) {
+//		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				FanMain.getFanUIInstance();
+//			}
+//		});
+		FanMain fan = new FanMain();
+		fan.setClientID(clientID);
 	}
 	
 //	TemperatureClient(int clientID) {

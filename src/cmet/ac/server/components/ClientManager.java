@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import cmet.ac.client.TemperatureClient;
+import cmet.ac.csv.CSVFileReader;
 
 public class ClientManager extends Thread {
 
@@ -46,7 +47,7 @@ public class ClientManager extends Thread {
 	 * @param clientID
 	 * @param server
 	 */
-	public ClientManager(ThreadGroup threadgroup, Socket socket, int clientID, AbstractServerComponent server, int amtClientConnections) {
+public ClientManager(ThreadGroup threadgroup, Socket socket, int clientID, AbstractServerComponent server, int amtClientConnections) {
 		
 		super(threadgroup, (Runnable) null);
 		
@@ -61,21 +62,24 @@ public class ClientManager extends Thread {
 			this.clientID = clientID;
 			
 			if (clientID % 2 != 0) {
-				TemperatureClient clientType = new TemperatureClient();
+				TemperatureClient clientType = new TemperatureClient(clientID);
+				// Add CSV File Reader Instance
+				//CSVFileReader(clientID);
+				
 			}
 			
 			else {
 				// Implement Light client
-				System.out.println("[Client Manage] Light Client Controller Still needs to be implemented");
+				System.out.println("[Client Manager] Light Client Controller Still needs to be implemented");
 			}
-			
-			
 			
 			System.out.println("[ClientManager: ] new client request received, port " 
 					+ socket.getPort());
 			try {
 				this.out = new ObjectOutputStream(this.clientSocket.getOutputStream());
 				this.in = new ObjectInputStream(this.clientSocket.getInputStream());
+				
+				
 						
 			}
 			catch(IOException e) {
@@ -96,6 +100,37 @@ public class ClientManager extends Thread {
 		}
 		
 	}
+	
+	// GOING TO ADD TO FAN CLASS
+//	public ClientManager(double temp) {
+//		setTemp(temp);
+//		getTemp();
+//	}
+	
+	// CSV Method(s)
+			public void CSVFileReader(int clientType) {
+//				try {
+//					if (clientType == 1) {
+//						CSVFileReader reader = new CSVFileReader();
+//						reader.ReadFile(clientType, 1);
+//					} else if (clientType == 2) {
+//						System.out.println("[Server] Light Controller isn't yet Implemented");
+//					}
+//				} catch (Exception e) {
+//					System.out.println("[Server] There doesn't seem to be a client that matches with [client ????]...");
+//				}
+				
+				if (clientType == 1) {
+					CSVFileReader reader = new CSVFileReader();
+					reader.ReadFile(clientType, 1);
+				} else if (clientType == 2) {
+					System.out.println("[Server] Light Controller isn't yet Implemented");
+				}
+
+			}
+		
+	
+	
 	
 	/**
 	 * Performs the function of sending a message from Server to remote Client#
@@ -157,7 +192,7 @@ public class ClientManager extends Thread {
 				msg = (String)this.in.readObject(); // Message from the client
 				this.server.handleMessagesFromClient(msg, this);
 				
-				if(msg.equals("STOP")) {
+				if(msg.equals("over")) {
 					this.stopConnection = true;	
 					System.out.println("[Client Manager] over command has been issued");
 				}				
@@ -206,5 +241,13 @@ public class ClientManager extends Thread {
 	public int getClientID() {
 		return this.clientID;
 	}
+	
+//	public void setTemp(double currentTemp) {
+//		this.currentTemp = currentTemp;
+//	}
+//	
+//	public double getTemp() {
+//		return currentTemp;
+//	}
 	
 }

@@ -23,21 +23,27 @@ public class SpeedPanel extends JPanel{
 	JTextField			txt_speed_value;
 	JButton				btn_setSpeed;
 	
+	private double currentTemp;
+	
 	private Fan			fan_instance;
 			
 	public SpeedPanel(Fan fanObj) {
-		this.lbl_speed_value 	= new JLabel("Fan speed (Delay in ms) :");
-		this.txt_speed_value 	= new JTextField("10", 5);
-		this.btn_setSpeed 		= new JButton("Set Speed");
-		
-		this.setLayout(new FlowLayout());
-		this.add(lbl_speed_value);
-		this.add(txt_speed_value);
-		this.add(btn_setSpeed);
-		
+//		this.lbl_speed_value 	= new JLabel("Fan speed (Delay in ms) :");
+//		this.txt_speed_value 	= new JTextField("10", 5);
+//		this.btn_setSpeed 		= new JButton("Set Speed");
+//		
+//		this.setLayout(new FlowLayout());
+//		this.add(lbl_speed_value);
+//		this.add(txt_speed_value);
+//		this.add(btn_setSpeed);
+//		
 		this.fan_instance = fanObj;
+//		
+//		setButtonActions();
+	}
+	
+	public SpeedPanel() {
 		
-		setButtonActions();
 	}
 	
 	public void setFanInstance(Fan fanInstance) {
@@ -49,16 +55,27 @@ public class SpeedPanel extends JPanel{
 		return txt_speed_value.getText();
 	}
 	
-	private void setButtonActions() {
+	public void setButtonActions(Fan fan_instance) {
 		
-		this.btn_setSpeed.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int timervalue = Integer.parseInt(txt_speed_value.getText());
-				fan_instance.setFanSpeed(timervalue);
-				
-			}
-		});
+		//System.out.println("Inside Speed panel");
+		//System.out.println("Temp Value: " + getTemp());
+		if (getTemp() <= 24.2) {
+			//System.out.println("below 24.1");
+			int timervalue = 20;
+			fan_instance.setFanSpeed(timervalue);
+		}
+		else if (getTemp() > 24.2) {
+			//System.out.println("above 24.1");
+			int timervalue = 1;
+			fan_instance.setFanSpeed(timervalue);
+		}
+	}
+	
+	public void setTemp(double currentTemp) {
+		this.currentTemp = currentTemp;
+	}
+	
+	public double getTemp() {
+		return currentTemp;
 	}
 }

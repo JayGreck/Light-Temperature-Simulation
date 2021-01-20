@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 
 import cmet.ac.components.Fan;
 import cmet.ac.components.FanPanel;
+import cmet.ac.components.SpeedPanel;
+import cmet.ac.csv.CSVFileReader;
 
 
 public class FanMain extends JFrame {
@@ -22,7 +24,13 @@ public class FanMain extends JFrame {
 	
 	private FanPanel 		fan_panel;
 	
+	private SpeedPanel		speed_panel;
+	
 	private Fan				fan_instance;
+	
+	private int clientID;
+	
+	CSVFileReader CSV_instance = new CSVFileReader();
 	
 	public static void main(String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -55,8 +63,10 @@ public class FanMain extends JFrame {
 		
 		fan_instance = new Fan(150, 150);
 		
+		
+		
 		fan_panel = new FanPanel(300, 300, fan_instance);
-		//speed_panel = new SpeedPanel(fan_instance);
+		speed_panel = new SpeedPanel(fan_instance);
 				
 		//add(speed_panel, BorderLayout.NORTH);
 		add(fan_panel, BorderLayout.CENTER);
@@ -64,5 +74,15 @@ public class FanMain extends JFrame {
 		setVisible(true);
 		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		CSV_instance.setFanInstance(fan_instance);
+		CSV_instance.ReadFile(getClientID(), 1);
+	}
+	
+	public void setClientID(int clientID) {
+		this.clientID = clientID;
+	}
+	
+	public int getClientID() {
+		return clientID;
 	}
 }

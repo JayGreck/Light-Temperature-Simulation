@@ -43,6 +43,10 @@ public class Client implements Runnable {
 	private String 					host;
 	private int 					port;
 	
+	private static int clientType = 1;
+	
+	private static int clientTypeID;
+	
 	
 	public Client() { }
 	/**
@@ -57,6 +61,10 @@ public class Client implements Runnable {
 		openConnection();
 	}
 	
+	public Client(int clientID) {
+		setClientID(clientID);
+	}
+	
 	/**
 	 * 
 	 * @param host
@@ -68,6 +76,7 @@ public class Client implements Runnable {
 		this.port = port;
 		openConnection();
 	}
+	
 	
 	/**
 	 * opens a connection to the server
@@ -268,11 +277,31 @@ public class Client implements Runnable {
 		} catch (IOException e) {
 			System.err.println("[client: ] error in openning the client connection to " + ip + " on port: " + port);
 		}
-
+		
+//		// Calling fan Instance
+//		if (getClientID() == 1) {
+//			TemperatureClient clientType = new TemperatureClient();	
+//		}
+//		
+//		else {
+//			System.out.println("[Simple Client] Light Controller still needs to be implemented!");
+//		}
+//		
+		
 		// Main thread continues and in this case used to handle user inputs from the terminal.
 		chatclient.runClient();
+		
+		
 
+	}
+	
+	public void setClientID(int clientID) {
+		this.clientTypeID = clientID;
+	}
+	
+	public int getClientID() {
+		System.out.println("[Temperature Clien] Temperature Client ID = " + clientTypeID);
+		return clientTypeID;
 	}
 
 }
-
