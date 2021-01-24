@@ -59,16 +59,30 @@ public class SpeedPanel extends JPanel{
 		
 		//System.out.println("Inside Speed panel");
 		//System.out.println("Temp Value: " + getTemp());
-		if (getTemp() <= 24.2) {
+		
+		// Low Setting
+		if (getTemp() <= 20) {
 			//System.out.println("below 24.1");
-			int timervalue = 20;
+			int timervalue = 17;
+			//System.out.println("Timervalue = " + timervalue);
 			fan_instance.setFanSpeed(timervalue);
 		}
-		else if (getTemp() > 24.2) {
+		
+		// Medium Setting
+		else if (getTemp() > 20  && getTemp() < 25) {
+			//System.out.println("above 24.1");
+			int timervalue = 10;
+			fan_instance.setFanSpeed(timervalue);
+		}
+		
+		// High Setting
+		else if (getTemp() >= 25) {
 			//System.out.println("above 24.1");
 			int timervalue = 1;
 			fan_instance.setFanSpeed(timervalue);
 		}
+		
+		
 	}
 	
 	public void setTemp(double currentTemp) {

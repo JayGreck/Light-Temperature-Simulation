@@ -17,6 +17,8 @@ public class TemperatureClient extends Client {
 	
 	private int clientTypeID;
 	
+	//CSVFileReader CSV_instance = new CSVFileReader();
+	
 	
 	//Temp Client Constructor
 	public TemperatureClient(int clientID) {
@@ -27,8 +29,17 @@ public class TemperatureClient extends Client {
 //				FanMain.getFanUIInstance();
 //			}
 //		});
-		FanMain fan = new FanMain();
-		fan.setClientID(clientID);
+		
+		//System.out.println("[Temp Client] " + clientID);
+		//FanMain fanSetID = new FanMain(clientID); // Sending ID to FanMain
+		FanMain fan = new FanMain(clientID);
+		//fan.setClientID(clientID);
+		//fanSetID.setClientID(clientID);
+		
+		//FanMain fan = new FanMain(); // Calling FanMain instance
+		
+		//fan.setClientID(clientID);
+		//CSV_instance.ReadFile(clientID, 1);
 	}
 	
 //	TemperatureClient(int clientID) {

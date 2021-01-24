@@ -175,6 +175,15 @@ public class Client implements Runnable {
 		try {
 			BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
 			String message = null;
+			
+			//ClientManager clientManager_instance = new ClientManager();
+			
+			//CSVFileReader CSV_instance = new CSVFileReader();
+			
+//			System.out.println("Enter Delay(ms): ");
+//			int n_delay = Integer.parseInt(fromConsole.readLine());
+			
+			//clientManager_instance.setNDelay(n_delay);
 
 			while (true) {
 				message = fromConsole.readLine();
@@ -299,9 +308,11 @@ public class Client implements Runnable {
 		this.clientTypeID = clientID;
 	}
 	
-	public int getClientID() {
-		System.out.println("[Temperature Clien] Temperature Client ID = " + clientTypeID);
-		return clientTypeID;
-	}
+	
+	
+//	public int getClientID() {
+//		System.out.println("[Temperature Clien] Temperature Client ID = " + clientTypeID);
+//		return clientTypeID;
+//	}
 
 }

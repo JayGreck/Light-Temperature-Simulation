@@ -30,7 +30,7 @@ public class FanMain extends JFrame {
 	
 	private int clientID;
 	
-	CSVFileReader CSV_instance = new CSVFileReader();
+	private CSVFileReader CSV_instance = new CSVFileReader();
 	
 	public static void main(String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -49,16 +49,22 @@ public class FanMain extends JFrame {
 	 */
 	public static FanMain getFanUIInstance() {
 		if(fanui_instance == null) {
-			fanui_instance = new FanMain();
+			//fanui_instance = new FanMain();
 		}
 		
 		return fanui_instance;
 	}
 	
+//	public FanMain(int clientID) {
+//		setClientID(clientID);
+//		FanMain fan = new FanMain();
+//		
+//	}
+	
 	/**
 	 * Constructor
 	 */
-	public FanMain() {
+	public FanMain(int clientID) {
 		super();
 		
 		fan_instance = new Fan(150, 150);
@@ -74,8 +80,13 @@ public class FanMain extends JFrame {
 		setVisible(true);
 		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		CSV_instance.setFanInstance(fan_instance);
-		CSV_instance.ReadFile(getClientID(), 1);
+		if(clientID == 1) {
+			CSV_instance.setFanInstance(fan_instance);
+			CSV_instance.setClientID(clientID);
+			//System.out.println("[Fan Main] Client ID = " + clientID);
+			CSV_instance.start();
+		}
+		
 	}
 	
 	public void setClientID(int clientID) {

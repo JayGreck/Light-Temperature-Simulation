@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class CSVFileReaderMain {
 	//static private String file = "C:\\Users\\Jay\\Downloads\\sensor_data.csv";
-	static private String file = "C:\\Users\\Jay\\Downloads\\Client-server programming  - workshop materials-20210112\\source\\sensor_data.csv";
+	static private String file = "CIS5027 PRAC1\\CIS5027-PRAC1-\\sensor_data.csv";
 	private String splitBy= ",";
 	
 	public String getFile() {

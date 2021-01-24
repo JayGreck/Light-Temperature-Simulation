@@ -34,6 +34,7 @@ public class Fan {
 	}
 	
 	public void setFanSpeed(int speed) {
+		//System.out.println("speed: " + speed);
 		this.fanSpeed = speed;
 		this.fan_panel.setTimer(this.fanSpeed);
 	}
