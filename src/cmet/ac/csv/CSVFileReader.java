@@ -71,6 +71,7 @@ public class CSVFileReader extends Thread {
 			
 			
 			LightClient lightClient = new LightClient();
+			//System.out.println(csvObject.getFile());
 			BufferedReader br = new BufferedReader(new FileReader(csvObject.getFile()));
 			
 			//parsing a CSV file into BufferedReader class constructor  

@@ -3,6 +3,7 @@
  */
 package cmet.ac.csv;
 
+import java.io.File;
 import java.util.Scanner;
 
 
@@ -13,16 +14,20 @@ import java.util.Scanner;
  */
 public class CSVFileReaderMain {
 	//static private String file = "C:\\Users\\Jay\\Downloads\\sensor_data.csv";
-	static private String file = "CIS5027 PRAC1\\CIS5027-PRAC1-\\sensor_data.csv";
+	private File file = new File("sensor_data.csv");
+	private String absolute_file = file.getAbsolutePath();
+	
+	
 	private String splitBy= ",";
 	
 	public String getFile() {
-		return file;
+		return absolute_file;
 	}
 	
 	public void setFile(String file) {
-		this.file = file;
+		this.absolute_file = file;
 	}
+	
 	
 	public String getSplitBy() {
 		return splitBy;
