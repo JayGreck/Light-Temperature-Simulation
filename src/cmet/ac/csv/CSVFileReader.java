@@ -6,7 +6,6 @@ package cmet.ac.csv;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
 
@@ -37,33 +36,13 @@ public class CSVFileReader extends Thread {
 	
 	private double currentLight;
 	
-	CSVFileReaderMain csvObject = new CSVFileReaderMain();
+	private CSVFileReaderMain csvObject = new CSVFileReaderMain();
 	
 	int i = 0;
 	
-	SpeedPanel sendTemptoFan = new SpeedPanel();
+	private SpeedPanel sendTemptoFan = new SpeedPanel();
 	
 	
-	
-	
-//	public void readTempData() {
-//		String tempData = sensorData[dataObject.getTempData()];
-//		//currentTemp = Double.parseDouble(sensorData[dataObject.getTempData()]);
-//		//System.out.println("Temp:" + sensorData[dataObject.getTempData()]);
-//		currentTemp = Double.parseDouble(sensorData[dataObject.getTempData()]);
-//		//System.out.println("[CSV File Reader] Temp: " + currentTemp);
-//		sendTemptoFan.setTemp(currentTemp);
-//		sendTemptoFan.setButtonActions(getFanInstance());
-//	}
-//	
-//	public void readLightData(JPanel panel) {
-//		
-//		//System.out.println("Light:" + sensorData[dataObject.getLightData()]);
-//		String lightData = sensorData[dataObject.getLightData()];
-//		currentLight = Double.parseDouble(sensorData[dataObject.getLightData()]);
-//		lightClient.setLight(currentLight);
-//		lightClient.changeBrightness(panel);
-//	}
 	
 	public void ReadFile(int clientType, int n_delay) {
 		
@@ -71,16 +50,13 @@ public class CSVFileReader extends Thread {
 			
 			
 			LightClient lightClient = new LightClient();
-			//System.out.println(csvObject.getFile());
 			BufferedReader br = new BufferedReader(new FileReader(csvObject.getFile()));
 			
-			//parsing a CSV file into BufferedReader class constructor  
-			//System.out.println("In READ FILE");
 			while ((line = br.readLine()) != null)   //returns a Boolean value  
 			{  
 				
 
-				SensorData dataObject = new SensorData();
+				SensorData dataObject = new SensorData(); // Creating a Sensor data instance for getters and setters
 				
 				
 				String[] sensorData = line.split(csvObject.getSplitBy());  // use comma as separator  
@@ -88,35 +64,27 @@ public class CSVFileReader extends Thread {
 				
 				
 				
-				if (clientType == 1 && i != 0) {
-					String tempData = sensorData[dataObject.getTempData()];
-					//currentTemp = Double.parseDouble(sensorData[dataObject.getTempData()]);
-					System.out.println("Temp:" + sensorData[dataObject.getTempData()]);
-					currentTemp = Double.parseDouble(sensorData[dataObject.getTempData()]);
-					//System.out.println("[CSV File Reader] Temp: " + currentTemp);
-					sendTemptoFan.setTemp(currentTemp);
-					sendTemptoFan.setButtonActions(getFanInstance());
-				}
-				else if(getClientID() == 2 && i != 0) {
+				if (clientType % 2 != 0 && i != 0) {
+					System.out.println("Temp:" + sensorData[dataObject.getTempData()]); // Prints temp data
 					
-					//System.out.println("In READ FILE IN LIGHT DATA");
-					String lightData = sensorData[dataObject.getLightData()];
-					//System.out.println("Light Data: " + sensorData[dataObject.getLightData()]);
-					currentLight = Double.parseDouble(sensorData[dataObject.getLightData()]);
-					lightClient.setLight(currentLight);
-					lightClient.changeBrightness(getJPanel()); 
-					
+					currentTemp = Double.parseDouble(sensorData[dataObject.getTempData()]); // Stores temp data as a double
+					sendTemptoFan.setTemp(currentTemp); // Setting temperature 
+					sendTemptoFan.setTimerValue(getFanInstance()); // setting timer value delay 
 				}
 				
-				
+				else if(getClientID() % 2 == 0 && i != 0) {
+					
+					System.out.println("Light Data: " + sensorData[dataObject.getLightData()]); // Prints light data
+					currentLight = Double.parseDouble(sensorData[dataObject.getLightData()]); // Stores light data as a double
+					lightClient.setLight(currentLight); // Setting light 
+					lightClient.changeBrightness(getJPanel()); // setting brightness
+					
+				}
 				i++;
-				
-			
-				//System.out.println("Light:" + sensorData[dataObject.getLightData()] + ", Temp:" + sensorData[dataObject.getTempData()]);  
-				//TimeUnit.SECONDS.sleep(n_delay);
-				//System.out.println("Delay = " + n_delay);
+				// Setting delay in milliseconds for thread to wait
 				Thread.sleep(n_delay);
 			}  
+			ReadFile(getClientID(), 500); // Recursively calls itself to simulate continuous supply of data
 			
 			}   
 		
@@ -124,6 +92,9 @@ public class CSVFileReader extends Thread {
 			{  
 				e1.printStackTrace();  
 			}  
+			catch (NumberFormatException e2) {
+				
+			}
 			}   
 	
 	@Override
@@ -131,6 +102,8 @@ public class CSVFileReader extends Thread {
 		ReadFile(getClientID(), 500);
 	}
 	
+	
+	// Getters and Setters
 	public void setFanInstance(Fan fanInstance) {
 		this.fan_instance = fanInstance;
 	}
@@ -153,13 +126,5 @@ public class CSVFileReader extends Thread {
 	
 	public JPanel getJPanel() {
 		return panel;
-	}
-	
-	public void setNDelay(int n_delay) {
-		this.n_delay = n_delay;
-	}
-	
-	public int getNDelay() {
-		return n_delay;
 	}
 }

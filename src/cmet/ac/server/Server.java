@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import cmet.ac.server.components.AbstractServerComponent;
 import cmet.ac.server.components.ClientManager;
@@ -45,10 +42,6 @@ public class Server extends AbstractServerComponent implements Runnable
 	
 	// stores the received messages from client
 	private String					receivedMessage;
-	
-	
-	
-	//private int clientType;
 	
 
 	/**
@@ -221,7 +214,7 @@ public class Server extends AbstractServerComponent implements Runnable
 			System.out.println("[client: ] stopping client...");
 			this.stopServer = true;
 			fromConsole.close();
-			//close(); Don't know why this is commented out???
+			
 		} catch (Exception ex) {
 			System.out.println("[client: ] unexpected error while reading from console!");
 		}
@@ -257,10 +250,9 @@ public class Server extends AbstractServerComponent implements Runnable
 
 		// increments when a client connects. 
 		int clientCount = 0;
-		//Thread[] threadList = getClientConnections();
-		int amtClientConnections;
-		//Scanner clientTypeInput = new Scanner(System.in);
 		
+		// Stores the amount of client connections
+		int amtClientConnections;
 		
 		// loops until stopserver flag is set to true. 
 		while (!this.stopServer) {
@@ -268,59 +260,24 @@ public class Server extends AbstractServerComponent implements Runnable
 			Socket clientSocket = null;
 			try {
 				
-				
+				// Assures that only two clients can be connected at a time
 				if(getClientConnections().length <= 1) {
 					
 					clientSocket = serverSocket.accept(); // Accepts Client connections
-					System.out.println("[Server] # Client Connections in else if block = " + getClientConnections().length);
 					clientCount++;
-					//clientConnections[clientCount];
-					System.out.println("[Server] Client Number = " + clientCount);
-					
-					// !!!!REMOVED CODE GOES HERE!!!!
 					
 					amtClientConnections = getClientConnections().length;
-					System.out.println("[Server] Client Connections [Look] " + getClientConnections().length);
 					ClientManager cm = new ClientManager(this.clientThreadGroup, clientSocket, clientCount, this, amtClientConnections); // New client thread is created
-//					if(getClientConnections().length < clientCount) {
-//						System.out.println("[Server] Client Number = " + clientCount);
-//						System.out.println("[Server] # Client Connections in if block = " + getClientConnections().length);
-//					}
-					
-					// new ClientManager(clientSocket, this);
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						System.err.println("[server: ] server listener thread interruped..");
 					}
-					
-					
 				}
-
-				
 			} catch (IOException e1) {
 				System.err.println("[server: ] Error when handling client connections on port " + port);
-			}
-			
-//			amtClientConnections = getClientConnections().length;
-//			ClientManager cm = new ClientManager(this.clientThreadGroup, clientSocket, clientCount, this, amtClientConnections); // New client thread is created
-//			if(getClientConnections().length < clientCount) {
-//				clientCount--; // Will alway's revert to 1 or 0
-//				System.out.println("[Server] Client Number = " + clientCount);
-//				System.out.println("[Server] # Client Connections in if block = " + getClientConnections().length);
-//			}
-//			
-//			// new ClientManager(clientSocket, this);
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//				System.err.println("[server: ] server listener thread interruped..");
-//			}
-//			
-			
-		}
-			
-
+			}			
+		}	
 	}
 
 	/**

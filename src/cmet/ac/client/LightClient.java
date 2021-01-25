@@ -1,7 +1,6 @@
 package cmet.ac.client;
 import java.awt.Color;
 
-import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,29 +25,26 @@ public class LightClient extends JComponent {
 	
 	public void createLightGUI(int clientID) {
 		
-		final CSVFileReader CSV_instance = new CSVFileReader();
-		System.out.println("In Light Client");
+		final CSVFileReader CSV_instance = new CSVFileReader(); // Creating CSV file instance to call the start() method on
+		
+		// Setting up Light GUI
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
 		frame.add(panel);
-		frame.setBackground(Color.BLACK);
-		
-		
 		frame.setSize(250,250);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		
 		
-		CSV_instance.setJPanel(panel);
-		System.out.println("Starting thread");
-		CSV_instance.setClientID(clientID);
-		CSV_instance.start();
+		CSV_instance.setJPanel(panel); // Sending JPanel to CSVFileReader, so CSVFileReader can send it to the changeBrightness() method
+		System.out.println("Starting Light Client thread");
+		CSV_instance.setClientID(clientID); // Sendning clientID to CSVFileReader
+		CSV_instance.start(); // Creating a new thread for CSVFileReader
 		
 	}
 	
-	
+	// Changes background colour of the Light GUI 
 	public void changeBrightness(JPanel panel) {
-		System.out.println("Inisde change brightness!!!");
 		System.out.println("Brightness = " + getLight());
 		if (getLight() <= 20) {
 			panel.setBackground(Color.decode("#FBFE00"));

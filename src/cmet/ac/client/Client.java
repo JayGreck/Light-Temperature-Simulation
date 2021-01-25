@@ -11,15 +11,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-
-import cmet.ac.components.Fan;
-import cmet.ac.components.FanPanel;
-import cmet.ac.frames.FanMain;
-
-
 /**
  * @author Jay
  *
@@ -43,8 +34,7 @@ public class Client implements Runnable {
 	private String 					host;
 	private int 					port;
 	
-	private static int clientType = 1;
-	
+	// STores the client ID
 	private static int clientTypeID;
 	
 	
@@ -61,9 +51,6 @@ public class Client implements Runnable {
 		openConnection();
 	}
 	
-	public Client(int clientID) {
-		setClientID(clientID);
-	}
 	
 	/**
 	 * 
@@ -175,20 +162,11 @@ public class Client implements Runnable {
 		try {
 			BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
 			String message = null;
-			
-			//ClientManager clientManager_instance = new ClientManager();
-			
-			//CSVFileReader CSV_instance = new CSVFileReader();
-			
-//			System.out.println("Enter Delay(ms): ");
-//			int n_delay = Integer.parseInt(fromConsole.readLine());
-			
-			//clientManager_instance.setNDelay(n_delay);
 
 			while (true) {
 				message = fromConsole.readLine();
 				handleUserInput(message);
-				if(message.equals("over"))
+				if(message.equals("STOP"))
 					break;
 			}
 			
@@ -287,16 +265,6 @@ public class Client implements Runnable {
 			System.err.println("[client: ] error in openning the client connection to " + ip + " on port: " + port);
 		}
 		
-//		// Calling fan Instance
-//		if (getClientID() == 1) {
-//			TemperatureClient clientType = new TemperatureClient();	
-//		}
-//		
-//		else {
-//			System.out.println("[Simple Client] Light Controller still needs to be implemented!");
-//		}
-//		
-		
 		// Main thread continues and in this case used to handle user inputs from the terminal.
 		chatclient.runClient();
 		
@@ -307,12 +275,5 @@ public class Client implements Runnable {
 	public void setClientID(int clientID) {
 		this.clientTypeID = clientID;
 	}
-	
-	
-	
-//	public int getClientID() {
-//		System.out.println("[Temperature Clien] Temperature Client ID = " + clientTypeID);
-//		return clientTypeID;
-//	}
 
 }

@@ -14,7 +14,6 @@ import java.awt.RenderingHints;
 
 public class Fan {
 	
-	//private double currentTemp;
 	
 	private final int triWidth = 20, triHeight = 40; //Wing triangle variables
 	private final int arcWidth = 20, arcHeight = 10; //Wing arc variables
@@ -42,10 +41,6 @@ public class Fan {
 	public Fan(int centerX, int centerY) {
 		this.centerX = centerX;
 		this.centerY = centerY;
-	}
-	
-	public Fan() {
-	
 	}
 	
 	public void update() {

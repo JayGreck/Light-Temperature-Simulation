@@ -8,8 +8,9 @@ package cmet.ac.csv;
  *
  */
 public class SensorData {
-	private int lightData = 7;
-	private int tempData = 9;
+	private int lightData = 7; // indicating light column in table
+	private int tempData = 9; // indicating temp column in table
+
 	
 	
 	
@@ -28,4 +29,5 @@ public class SensorData {
 	public void setTempData(int tempData) {
 		this.tempData = tempData;
 	}
+	
 }

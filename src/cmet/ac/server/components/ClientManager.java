@@ -16,7 +16,7 @@ import java.net.SocketException;
 
 import cmet.ac.client.TemperatureClient;
 import cmet.ac.client.LightClient;
-import cmet.ac.csv.CSVFileReader;
+
 
 public class ClientManager extends Thread {
 
@@ -42,8 +42,6 @@ public class ClientManager extends Thread {
 	
 	private double currentLightLevel;
 	
-	String[] startCommand;
-	private int n_delay;
 	
 
 	
@@ -67,17 +65,6 @@ public class ClientManager extends Thread {
 		this.stopConnection = false;
 		this.clientID = clientID;
 		
-//		if (clientID % 2 != 0) {
-//			TemperatureClient clientType = new TemperatureClient(clientID);
-//			// Add CSV File Reader Instance
-//			//CSVFileReader(clientID);
-//			
-//		}
-//		
-//		else {
-//			// Implement Light client
-//			System.out.println("[Client Manager] Light Client Controller Still needs to be implemented");
-//		}
 		
 		System.out.println("[ClientManager: ] new client request received, port " 
 				+ socket.getPort());
@@ -99,92 +86,7 @@ public class ClientManager extends Thread {
 		}
 		
 		start();	
-		
-		//System.out.println("Client Type = " + clientType);
-		
-//		System.out.println("[ClientManager: ] amtClientConnections = " + amtClientConnections);
-//		if(amtClientConnections <= 2) {
-//			//System.out.println("[ClientManager: ] Inside if block khadkujhakjshd");
-//			this.clientSocket = socket;
-//			this.server = server;
-//			this.stopConnection = false;
-//			this.clientID = clientID;
-//			
-////			if (clientID % 2 != 0) {
-////				TemperatureClient clientType = new TemperatureClient(clientID);
-////				// Add CSV File Reader Instance
-////				//CSVFileReader(clientID);
-////				
-////			}
-////			
-////			else {
-////				// Implement Light client
-////				System.out.println("[Client Manager] Light Client Controller Still needs to be implemented");
-////			}
-//			
-//			System.out.println("[ClientManager: ] new client request received, port " 
-//					+ socket.getPort());
-//			
-//			try {
-//				this.out = new ObjectOutputStream(this.clientSocket.getOutputStream());
-//				this.in = new ObjectInputStream(this.clientSocket.getInputStream());
-//				
-//						
-//			}
-//			catch(IOException e) {
-//				System.err.println("[ClientManager: ] error when establishing IO streams on client socket.");
-//				try {
-//					closeAll();
-//				} catch (IOException e1) {
-//					System.err.println("[ClientManager: ] error when closing connections..." + e1.toString());
-//
-//				}
-//			}
-//			
-//			start();	
-//		}
-//		
-//		else {
-//			System.out.println("[Client Manager] Client Connection Maximum Met...");
-//			// TESTING BELOW CODE (Don't work)
-//			try {
-//				closeAll();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-		
 	}
-	
-	// GOING TO ADD TO FAN CLASS
-//	public ClientManager(double temp) {
-//		setTemp(temp);
-//		getTemp();
-//	}
-	
-//	// CSV Method(s)
-//			public void CSVFileReader(int clientType) {
-////				try {
-////					if (clientType == 1) {
-////						CSVFileReader reader = new CSVFileReader();
-////						reader.ReadFile(clientType, 1);
-////					} else if (clientType == 2) {
-////						System.out.println("[Server] Light Controller isn't yet Implemented");
-////					}
-////				} catch (Exception e) {
-////					System.out.println("[Server] There doesn't seem to be a client that matches with [client ????]...");
-////				}
-//				
-//				if (clientType == 1) {
-//					CSVFileReader reader = new CSVFileReader();
-//					reader.ReadFile(clientType, 1);
-//				} else if (clientType == 2) {
-//					System.out.println("[Server] Light Controller isn't yet Implemented");
-//				}
-//
-//			}
-		
 	
 	
 	
@@ -254,8 +156,8 @@ public class ClientManager extends Thread {
 				//System.out.println(startCommand[1]);
 				
 				
-				double clientIDdouble = clientID;
-				System.out.println("CIDD: " + clientIDdouble);
+				
+				//System.out.println("CIDD: " + clientIDdouble);
 				if(msg.equals("STOP")) {
 					this.stopConnection = true;	
 					System.out.println("[Client Manager] STOP command has been issued");
@@ -264,22 +166,16 @@ public class ClientManager extends Thread {
 				
 				
 				// OLD CODE **msg.equals("start")**
-				else if (clientIDdouble % 2 != 0 && msg.equals("start")) {
-					//System.out.println("Inside start block");
-					//n_delay = Integer.parseInt(startCommand[1]);
-					//n_delay = 1000;
-					//System.out.println("[Client Manager] Delay = " + getNDelay());
-					//System.out.println("Client Manager: " + getNDelay());
+				else if (clientID % 2 != 0 && msg.equals("start")) {
+					// Creating temperature client instance if the client has an odd ID
 					TemperatureClient clientType = new TemperatureClient(clientID);
-					// Add CSV File Reader Instance
-					//CSVFileReader(clientID);
+			
 				}
 				
-				else if(clientIDdouble % 2 == 0 && msg.equals("start")) {
-					// Implement Light client
-					//System.out.println("[Client Manager] Light Client Controller Still needs to be implemented");
+				else if(clientID % 2 == 0 && msg.equals("start")) {
+					// Creating light client instance if the client has an even ID
 					LightClient light = new LightClient();
-					light.createLightGUI(clientID);
+					light.createLightGUI(clientID); // Creating light GUI using LightClient instance
 				}
 			}
 			
@@ -327,18 +223,4 @@ public class ClientManager extends Thread {
 		return this.clientID;
 	}
 	
-//	public void setTemp(double currentTemp) {
-//		this.currentTemp = currentTemp;
-//	}
-//	
-//	public double getTemp() {
-//		return currentTemp;
-//	}
-	public void setNDelay(int n_delay) {
-		this.n_delay = n_delay;
-	}
-	
-	public int getNDelay() {
-		return n_delay;
-	}
 }

@@ -49,17 +49,11 @@ public class FanMain extends JFrame {
 	 */
 	public static FanMain getFanUIInstance() {
 		if(fanui_instance == null) {
-			//fanui_instance = new FanMain();
+			
 		}
 		
 		return fanui_instance;
 	}
-	
-//	public FanMain(int clientID) {
-//		setClientID(clientID);
-//		FanMain fan = new FanMain();
-//		
-//	}
 	
 	/**
 	 * Constructor
@@ -69,22 +63,18 @@ public class FanMain extends JFrame {
 		
 		fan_instance = new Fan(150, 150);
 		
-		
-		
 		fan_panel = new FanPanel(300, 300, fan_instance);
-		speed_panel = new SpeedPanel(fan_instance);
 				
-		//add(speed_panel, BorderLayout.NORTH);
 		add(fan_panel, BorderLayout.CENTER);
 		
 		setVisible(true);
 		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		if(clientID == 1) {
 			CSV_instance.setFanInstance(fan_instance);
 			CSV_instance.setClientID(clientID);
-			//System.out.println("[Fan Main] Client ID = " + clientID);
-			CSV_instance.start();
+			CSV_instance.start(); // Creating a new CSV Thread
 		}
 		
 	}
